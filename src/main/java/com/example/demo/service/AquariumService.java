@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 public class AquariumService {
     private final AquariumRepository aquariumRepository;
 
-    public void save(final Aquarium aquarium) {
-        aquariumRepository.save(aquarium);
+    public Aquarium save(final Aquarium aquarium) {
+        return aquariumRepository.save(aquarium);
     }
 
     public List<Aquarium> getAll() {

@@ -17,12 +17,12 @@ public class AquariumController {
     private final AquariumService aquariumService;
 
     @PostMapping
-    public void createAquarium(@RequestBody Aquarium aquarium) {
-        aquariumService.save(aquarium);
+    public Aquarium createAquarium(@RequestBody Aquarium aquarium) {
+        return aquariumService.save(aquarium);
     }
 
     @GetMapping
-    public List<Aquarium> getAquarium() {
+    public List<Aquarium> getAquariums() {
         return aquariumService.getAll();
     }
 }
