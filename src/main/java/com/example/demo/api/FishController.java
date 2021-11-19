@@ -1,11 +1,18 @@
 package com.example.demo.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 import com.example.demo.model.Fish;
+import com.example.demo.model.command.CreateFishCommand;
+import com.example.demo.model.dto.FishDto;
 import com.example.demo.service.FishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,14 +21,20 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class FishController {
     private final FishService fishService;
+    private final ModelMapper modelMapper;
 
     @PostMapping
-    public Fish createFish(@RequestBody Fish fish) {
-        return fishService.save(fish);
+    public ResponseEntity createFish(@RequestBody @Valid CreateFishCommand fish) {
+        Fish savedFish = fishService.save(fish);
+        return new ResponseEntity(modelMapper.map(savedFish, FishDto.class), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Fish> getFishes() {
-        return fishService.getAll();
+    public ResponseEntity getFishes() {
+        List<FishDto> collect = fishService.getAll().stream()
+            .map(fish -> modelMapper.map(fish, FishDto.class))
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok(collect);
     }
 }
