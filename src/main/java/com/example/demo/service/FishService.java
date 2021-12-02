@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.exception.FishNotFoundException;
+import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
 import com.example.demo.model.command.CreateFishCommand;
 import com.example.demo.repository.FishRepository;
@@ -15,11 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class FishService {
     private final FishRepository fishRepository;
 
-    public Fish save(final CreateFishCommand fish) {
+    public Fish save(final CreateFishCommand fish, Aquarium aquarium) {
         return fishRepository.save(Fish.builder()
             .name(fish.getName())
             .type(fish.getType())
             .price(fish.getPrice())
+            .aquarium(aquarium)
             .build());
     }
 

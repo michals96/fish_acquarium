@@ -10,6 +10,7 @@ import com.example.demo.model.Fish;
 import com.example.demo.model.command.AddFishToAquariumCommand;
 import com.example.demo.model.command.CreateaAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
+import com.example.demo.model.dto.FishDto;
 import com.example.demo.service.AquariumService;
 import com.example.demo.service.FishService;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,26 @@ public class AquariumController {
             .collect(Collectors.toList());
 
         return ResponseEntity.ok(collect);
+    }
+
+    @GetMapping(value = "/fishes")
+    public ResponseEntity getFishesFromAquarium(@RequestParam final Long id) {
+        List<FishDto> collect =
+            aquariumService.findOne(id).getFishes().stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
+
+        return ResponseEntity.ok(collect);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity remove(@PathVariable("id") final Long id) {
+        List<Fish> fishes = aquariumService.findOne(id).getFishes();
+
+        if(!fishes.isEmpty()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        aquariumService.remove(id);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

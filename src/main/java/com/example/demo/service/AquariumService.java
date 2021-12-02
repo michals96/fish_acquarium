@@ -36,4 +36,9 @@ public class AquariumService {
             .findById(id)
             .orElseThrow(() -> new AquariumNotFoundException(id));
     }
+
+    @Transactional
+    public void remove(final Long id) {
+        aquariumRepository.deleteById(id);
+    }
 }

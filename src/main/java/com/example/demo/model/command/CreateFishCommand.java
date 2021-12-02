@@ -17,4 +17,6 @@ public class CreateFishCommand {
     private String type;
     @NotNull
     private BigDecimal price;
+    @NotNull
+    private Long acquariumId;
 }
