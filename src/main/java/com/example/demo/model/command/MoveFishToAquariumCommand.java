@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AddFishToAquariumCommand {
+public class MoveFishToAquariumCommand {
     @NotNull
     private Long fishId;
     @NotNull

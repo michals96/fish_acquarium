@@ -1,13 +1,11 @@
 package com.example.demo.api;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
-import com.example.demo.model.command.AddFishToAquariumCommand;
+import com.example.demo.model.command.MoveFishToAquariumCommand;
 import com.example.demo.model.command.CreateaAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
 import com.example.demo.model.dto.FishDto;
@@ -36,9 +34,9 @@ public class AquariumController {
         return new ResponseEntity(modelMapper.map(savedAquarium, AquariumDto.class), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/addfish")
+    @PostMapping(value = "/movefish")
     @Transactional
-    public ResponseEntity addFishToAquarium(@RequestBody AddFishToAquariumCommand command) {
+    public ResponseEntity moveFish(@RequestBody MoveFishToAquariumCommand command) {
         Aquarium aquarium = aquariumService.findOne(command.getAquariumId());
         Fish fish = fishService.findOne(command.getFishId());
 
