@@ -38,3 +38,12 @@ public class FishController {
         return ResponseEntity.ok(collect);
     }
 }
+/*
++ Mozliwosc stworzenia akwarium (id, nazwa, pojemnosc)
+2. Dodawanie rybek do akwarium (kazda ryba ma id nazwa gatunek cena)
+3. Rybke mozna dodac do akawrium nie moze istniec rybka niedoadna do akwarium
+4. wypisywanie stanu akwarium (jakie akwarium rybki wartosc w srodku)
+5. usuwanie akwarium, ale jesli nie ma w nim rybek
+6. nie mozna usuwac rybek, mozemy przenosic z pomiedzy akwarium
+7. Na kazdy 1l akwarium moze byc 1 rybka
+ */

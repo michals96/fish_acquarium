@@ -16,4 +16,5 @@ public class FishDto{
     private String name;
     private String type;
     private BigDecimal price;
+    //private AquariumDto aquarium;
 }

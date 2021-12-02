@@ -3,12 +3,10 @@ package com.example.demo.model;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -22,4 +20,6 @@ public class Fish {
     // Todo: ENUM?? to be investigated
     private String type;
     private BigDecimal price;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Aquarium aquarium;
 }

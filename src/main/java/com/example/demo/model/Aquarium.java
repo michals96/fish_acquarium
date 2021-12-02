@@ -1,13 +1,13 @@
 package com.example.demo.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -19,4 +19,11 @@ public class Aquarium {
     private long id;
     private String name;
     private Integer capacity;
+    @OneToMany(mappedBy = "aquarium", cascade = CascadeType.ALL)
+    private Set<Fish> fishes = new HashSet<Fish>();
+
+    public void addFish(Fish fish) {
+        fish.setAquarium(this);
+        this.fishes.add(fish);
+    }
 }
