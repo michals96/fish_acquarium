@@ -38,6 +38,11 @@ public class AquariumController {
     @Transactional
     public ResponseEntity moveFish(@RequestBody MoveFishToAquariumCommand command) {
         Aquarium aquarium = aquariumService.findOne(command.getAquariumId());
+
+        if(!aquarium.validateIfPossibleToAddFish()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        
         Fish fish = fishService.findOne(command.getFishId());
 
         aquarium.addFish(fish);

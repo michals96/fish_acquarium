@@ -29,6 +29,11 @@ public class FishController {
     @PostMapping
     public ResponseEntity createFish(@RequestBody @Valid CreateFishCommand fish) {
         Aquarium aquarium = aquariumService.findOne(fish.getAcquariumId());
+
+        if(!aquarium.validateIfPossibleToAddFish()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         Fish savedFish = fishService.save(fish, aquarium);
         return new ResponseEntity(modelMapper.map(savedFish, FishDto.class), HttpStatus.CREATED);
     }

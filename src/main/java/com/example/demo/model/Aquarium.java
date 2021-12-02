@@ -28,4 +28,8 @@ public class Aquarium {
         fish.setAquarium(this);
         this.fishes.add(fish);
     }
+
+    public boolean validateIfPossibleToAddFish() {
+        return (fishes.size() < capacity);
+    }
 }
