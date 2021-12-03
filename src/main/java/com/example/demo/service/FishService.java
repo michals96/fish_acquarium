@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.exception.FishNotFoundException;
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
 import com.example.demo.model.command.CreateFishCommand;
@@ -35,11 +34,5 @@ public class FishService {
     @Transactional(readOnly = true)
     public List<Fish> getAll() {
         return fishRepository.findAll();
-    }
-
-    public Fish findOne(final Long id) {
-        return fishRepository
-            .findById(id)
-            .orElseThrow(() -> new FishNotFoundException(id));
     }
 }

@@ -59,11 +59,12 @@ public class AquariumController {
     }
 
     /*
-     1. dodawac rybki i przemieszczac rybki moze tylko user z rola ROLE_FISHERMAN
-     2. usuwac akwarium moze tylko ziomek z rola ROLE_SALESMAN
-     3. logika biznesowa do kontrolerow
-     4. walidacje juz na poziomie modelu
-     5. testy integracyjne
-     6. testy jednostkowe
+     + 1. dodawac rybki i przemieszczac rybki moze tylko user z rola ROLE_FISHERMAN
+     + 2. usuwac akwarium moze tylko ziomek z rola ROLE_SALESMAN
+     + 3. logika biznesowa do kontrolerow
+     - inprogress: 4. Walidacje juz na poziomie modelu
+     5. Testy integracyjne
+     6. Testy jednostkowe
+     7. Zadanie z Facebooka
      */
 }
