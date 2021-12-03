@@ -29,6 +29,14 @@ public class Aquarium {
         this.fishes.add(fish);
     }
 
+    public void addFishes(List<Fish> fishes) {
+        for(Fish fish : fishes) {
+            fish.setAquarium(this);
+        }
+
+        this.fishes.addAll(fishes);
+    }
+
     public boolean validateIfPossibleToAddFish() {
         return (fishes.size() < capacity);
     }

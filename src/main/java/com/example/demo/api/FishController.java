@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,8 +28,9 @@ public class FishController {
     private final ModelMapper modelMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_FISHERMAN')")
     public ResponseEntity createFish(@RequestBody @Valid CreateFishCommand fish) {
-        Aquarium aquarium = aquariumService.findOne(fish.getAcquariumId());
+        Aquarium aquarium = aquariumService.getOne(fish.getAcquariumId());
 
         if(!aquarium.validateIfPossibleToAddFish()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
