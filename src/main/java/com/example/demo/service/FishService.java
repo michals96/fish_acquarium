@@ -15,18 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class FishService {
     private final FishRepository fishRepository;
+    private final AquariumService aquariumService;
 
-    public Fish save(final CreateFishCommand fish, Aquarium aquarium) {
+    public Fish save(final CreateFishCommand fish) {
+        Aquarium aquarium = aquariumService.getOne(fish.getAcquariumId());
+
+        if(!aquarium.validateIfPossibleToAddFish()) {
+            return null;
+        }
+
         return fishRepository.save(Fish.builder()
             .name(fish.getName())
             .type(fish.getType())
             .price(fish.getPrice())
             .aquarium(aquarium)
             .build());
-    }
-
-    public Fish save(final Fish fish) {
-        return fishRepository.save(fish);
     }
 
     @Transactional(readOnly = true)
