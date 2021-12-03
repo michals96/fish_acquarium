@@ -32,8 +32,8 @@ public class AquariumController {
         return new ResponseEntity(modelMapper.map(savedAquarium, AquariumDto.class), HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}/{targetId}")
     @PreAuthorize("hasRole('ROLE_FISHERMAN')")
-    @PutMapping(value = "/{id}/move-to/{targetId}")
     public ResponseEntity moveFish(@PathVariable("id") final Long id, @PathVariable("targetId") final Long targetId) {
         return aquariumService.moveFish(id, targetId) ? new ResponseEntity(HttpStatus.NO_CONTENT)
             : new ResponseEntity(HttpStatus.BAD_REQUEST);
