@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.example.demo.model.Aquarium;
-import com.example.demo.model.Fish;
 import com.example.demo.model.command.CreateaAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
 import com.example.demo.model.dto.FishDto;
@@ -41,34 +40,30 @@ public class AquariumController {
 
     @GetMapping
     public ResponseEntity getAquariums() {
-        List<AquariumDto> collect = aquariumService.getAll().stream()
-            .map(aquarium -> modelMapper.map(aquarium, AquariumDto.class))
-            .collect(Collectors.toList());
-
-        return ResponseEntity.ok(collect);
+        return ResponseEntity.ok(aquariumService.getAll());
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getFishesFromAquarium(@RequestParam final Long id) {
         List<FishDto> collect =
-            aquariumService.getOne(id).getFishes().stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
-
+            aquariumService.getOne(id).getFishes()
+                .stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
         return ResponseEntity.ok(collect);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_SALESMAN')")
     public ResponseEntity remove(@PathVariable("id") final Long id) {
-        List<Fish> fishes = aquariumService.getOne(id).getFishes();
-
-        if (!fishes.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        aquariumService.remove(id);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return aquariumService.remove(id) ? new ResponseEntity(HttpStatus.NO_CONTENT)
+            : new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
-    ///dodawac rybki i przemieszczac rybki moze tylko user z rola ROLE_FISHERMAN
-    // usuwac akwarium moze tylko ziomek z rola ROLE_SALESMAN
+
+    /*
+     1. dodawac rybki i przemieszczac rybki moze tylko user z rola ROLE_FISHERMAN
+     2. usuwac akwarium moze tylko ziomek z rola ROLE_SALESMAN
+     3. logika biznesowa do kontrolerow
+     4. walidacje juz na poziomie modelu
+     5. testy integracyjne
+     6. testy jednostkowe
+     */
 }
