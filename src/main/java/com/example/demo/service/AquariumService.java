@@ -27,10 +27,6 @@ public class AquariumService {
             .build());
     }
 
-    public Aquarium save(final Aquarium aquarium) {
-        return aquariumRepository.save(aquarium);
-    }
-
     @Transactional(readOnly = true)
     public List<Aquarium> getAll() {
         List<Aquarium> aquariumList = aquariumRepository.findAll();
