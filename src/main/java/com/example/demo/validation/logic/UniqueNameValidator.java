@@ -3,7 +3,6 @@ package com.example.demo.validation.logic;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.example.demo.model.Fish;
 import com.example.demo.repository.AquariumRepository;
 import com.example.demo.repository.FishRepository;
 import com.example.demo.validation.annotation.UniqueName;
@@ -24,7 +23,6 @@ public class UniqueNameValidator implements ConstraintValidator<UniqueName, Stri
         } else if(classType.equals("Aquarium")) {
             return aquariumRepository.getByName(name) == null;
         } else return false;
-        return false;
     }
 
     @Override
