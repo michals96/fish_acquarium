@@ -2,6 +2,7 @@ package com.example.demo.api;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.DemoApplication;
@@ -27,6 +28,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,8 +41,6 @@ class FishControllerTest {
     FishService fishService;
     @MockBean
     AquariumRepository aquariumRepository;
-    /*    @Mocked
-        LimitCapacityValidator limitCapacityValidator;*/
     @Autowired
     ObjectMapper objectMapper;
     @Autowired
@@ -60,6 +60,31 @@ class FishControllerTest {
             .content(toJson(dummyRequest())))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.name", is(equalTo("Fish"))));
+    }
+
+    @Test
+    void shouldNotAddSingleFishOnMissingAuthorization() throws Exception {
+        Fish fish = Fish.builder().name("Fish").build();
+        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fishes(new ArrayList<>()).build();
+        aquarium.getFishes().add(fish);
+        when(fishService.save(any())).thenReturn(fish);
+        when(aquariumRepository.findById(any())).thenReturn(Optional.of(aquarium));
+
+        postman.perform(post("/fish")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void shouldGetFishList() throws Exception {
+        Fish fish = Fish.builder().name("Fish").build();
+        when(fishService.getAll()).thenReturn(List.of(fish));
+
+        postman.perform(get("/fish")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isOk());
     }
 
     private CreateFishCommand dummyRequest() {

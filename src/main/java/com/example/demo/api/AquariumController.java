@@ -63,7 +63,7 @@ class AquariumController {
      + 2. usuwac akwarium moze tylko ziomek z rola ROLE_SALESMAN
      + 3. logika biznesowa do kontrolerow
      + 4. Walidacje juz na poziomie modelu
-     5. Testy integracyjne
+     + 5. Testy integracyjne
      6. Testy jednostkowe
      7. Zadanie z Facebooka
      */
