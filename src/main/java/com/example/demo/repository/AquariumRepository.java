@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface AquariumRepository extends CrudRepository<Aquarium, Long> {
     List<Aquarium> findAll();
     Optional<Aquarium> findById(Long id);
+    Aquarium getByName(String name);
 }

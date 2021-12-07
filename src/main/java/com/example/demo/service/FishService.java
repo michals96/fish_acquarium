@@ -17,7 +17,7 @@ public class FishService {
     private final AquariumService aquariumService;
 
     public Fish save(final CreateFishCommand fish) {
-        Aquarium aquarium = aquariumService.getOne(fish.getAcquariumId());
+        Aquarium aquarium = aquariumService.getOne(Long.valueOf(fish.getAquariumId()));
 
         if(!aquarium.validateIfPossibleToAddFish()) {
             return null;
