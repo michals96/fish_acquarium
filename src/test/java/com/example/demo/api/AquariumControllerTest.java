@@ -1,5 +1,7 @@
 package com.example.demo.api;
 
+import java.util.List;
+
 import com.example.demo.DemoApplication;
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.command.CreateaAquariumCommand;
@@ -21,8 +23,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,6 +70,59 @@ class AquariumControllerTest {
             .contentType(APPLICATION_JSON)
             .content(toJson(dummyRequest())))
             .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void shouldGetAquariumsList() throws Exception {
+        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).build();
+        when(aquariumService.getAll()).thenReturn(List.of(aquarium));
+        postman.perform(get("/aquarium")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldGetFishesFromAquarium() throws Exception {
+        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).build();
+        when(aquariumService.getAll()).thenReturn(List.of(aquarium));
+
+        postman.perform(get("/aquarium")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "sales", password = "sales", roles = "SALESMAN")
+    void shouldRemoveAquarium() throws Exception {
+        when(aquariumService.remove(any())).thenReturn(true);
+
+        postman.perform(delete("/aquarium/1")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldNotRemoveAquariumOnMissingAuthorization() throws Exception {
+        when(aquariumService.remove(any())).thenReturn(true);
+
+        postman.perform(delete("/aquarium/1")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(username = "sales", password = "sales", roles = "SALESMAN")
+    void shouldNotRemoveAquariumOnWrongId() throws Exception {
+        when(aquariumService.remove(any())).thenReturn(false);
+
+        postman.perform(delete("/aquarium/1")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(dummyRequest())))
+            .andExpect(status().isBadRequest());
     }
 
     private CreateaAquariumCommand dummyRequest() {
