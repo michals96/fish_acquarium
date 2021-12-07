@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/fish")
 @RequiredArgsConstructor
 @Slf4j
-public class FishController {
+class FishController {
     private final FishService fishService;
     private final ModelMapper modelMapper;
 

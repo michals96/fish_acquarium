@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/aquarium")
 @RequiredArgsConstructor
 @Slf4j
-public class AquariumController {
+class AquariumController {
     private final AquariumService aquariumService;
     private final ModelMapper modelMapper;
 
