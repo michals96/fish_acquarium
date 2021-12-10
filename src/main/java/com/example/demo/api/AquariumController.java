@@ -64,7 +64,7 @@ class AquariumController {
      + 3. logika biznesowa do kontrolerow
      + 4. Walidacje juz na poziomie modelu
      + 5. Testy integracyjne
-     6. Testy jednostkowe
+     + 6. Testy jednostkowe
      7. Zadanie z Facebooka
      */
 }
