@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.model.Aquarium;
+import com.example.demo.model.Fish;
 import com.example.demo.model.command.CreateaAquariumCommand;
 import com.example.demo.repository.AquariumRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,24 +12,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.Answers;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 @ExtendWith({MockitoExtension.class})
 @DataJpaTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class AquariumServiceTest {
 
     @BeforeEach
@@ -46,13 +39,13 @@ class AquariumServiceTest {
     private AquariumService aquariumService;
 
     @Test
-    public void shouldSaveAquarium() {
+    void shouldSaveAquarium() {
         Aquarium aquarium = aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
         assertThat(aquarium).isNotNull();
     }
 
     @Test
-    public void shouldGetAllAquariums() {
+    void shouldGetAllAquariums() {
         aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
         aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
 
@@ -64,22 +57,41 @@ class AquariumServiceTest {
     }
 
     @Test
-    public void shouldGetOneAquarium() {
+    void shouldGetOneAquarium() {
+        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
         aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
 
-        Aquarium one = aquariumService.getOne(1L);
+        Aquarium aquarium = aquariumService.getOne(1L);
 
-        assertThat(one).isNotNull();
-    }
-
-    //TODO
-    @Test
-    public void shouldMoveFishToDifferentAquarium() {
-
+        assertThat(aquarium).isNotNull();
     }
 
     @Test
-    public void shouldRemoveAquarium() {
+    void shouldMoveFishToDifferentAquarium() {
+        Aquarium firstAquarium = aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        Aquarium secondAquarium = aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
 
+        Fish fish = Fish.builder().name("test_fish").build();
+        firstAquarium.addFish(fish);
+
+        assertThat(firstAquarium.getFishes().size()).isEqualTo(1);
+        assertThat(secondAquarium.getFishes().size()).isZero();
+
+        aquariumService.moveFish(1L, 2L);
+
+        assertThat(firstAquarium.getFishes().size()).isZero();
+        assertThat(secondAquarium.getFishes().size()).isEqualTo(1);
+
+    }
+
+    @Test
+    void shouldRemoveAquarium() {
+        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+
+        aquariumService.remove(1L);
+        List<Aquarium> aquariums = aquariumService.getAll();
+
+        assertThat(aquariums.size()).isEqualTo(1);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ public class AquariumService {
         return aquariumRepository.save(Aquarium.builder()
             .name(aquarium.getName())
             .capacity(aquarium.getCapacity())
+            .fishes(new ArrayList<>())
             .build());
     }
 
@@ -53,6 +55,7 @@ public class AquariumService {
 
         List<Fish> fishes = sourceAquarium.getFishes();
         targetAquarium.addFishes(fishes);
+        sourceAquarium.getFishes().clear();
 
         return true;
     }
