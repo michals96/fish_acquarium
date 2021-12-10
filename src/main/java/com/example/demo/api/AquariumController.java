@@ -66,5 +66,7 @@ class AquariumController {
      + 5. Testy integracyjne
      + 6. Testy jednostkowe
      7. Zadanie z Facebooka
+     - jacoco dodane, test coverage
+     - mvn -pl <module-name> -Dit.test=TestCircle#xyz integration-test
      */
 }
