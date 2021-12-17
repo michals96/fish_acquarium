@@ -44,7 +44,7 @@ class FishController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity getFishFromAquarium(@RequestParam final Long id) {
+    public ResponseEntity getFishFromAquarium(@PathVariable final Long id) {
         List<FishDto> collect =
             aquariumService.getOne(id).getFish()
                 .stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
