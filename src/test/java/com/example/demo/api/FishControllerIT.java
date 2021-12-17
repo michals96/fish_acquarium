@@ -50,8 +50,8 @@ class FishControllerIT {
     @WithMockUser(username = "admin", password = "admin", roles = "FISHERMAN")
     void shouldAddSingleFish() throws Exception {
         Fish fish = Fish.builder().name("Fish").build();
-        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fishes(new ArrayList<>()).build();
-        aquarium.getFishes().add(fish);
+        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fish(new ArrayList<>()).build();
+        aquarium.getFish().add(fish);
         when(fishService.save(any())).thenReturn(fish);
         when(aquariumRepository.findById(any())).thenReturn(Optional.of(aquarium));
 
@@ -65,8 +65,8 @@ class FishControllerIT {
     @Test
     void shouldNotAddSingleFishOnMissingAuthorization() throws Exception {
         Fish fish = Fish.builder().name("Fish").build();
-        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fishes(new ArrayList<>()).build();
-        aquarium.getFishes().add(fish);
+        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fish(new ArrayList<>()).build();
+        aquarium.getFish().add(fish);
         when(fishService.save(any())).thenReturn(fish);
         when(aquariumRepository.findById(any())).thenReturn(Optional.of(aquarium));
 

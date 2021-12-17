@@ -1,13 +1,10 @@
 package com.example.demo.api;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
-import com.example.demo.model.dto.FishDto;
 import com.example.demo.service.AquariumService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,15 +38,6 @@ class AquariumController {
     @GetMapping
     public ResponseEntity getAquariums() {
         return ResponseEntity.ok(aquariumService.getAll());
-    }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity getFishesFromAquarium(@RequestParam final Long id) {
-        //za duza odpowiedzielnosc
-        List<FishDto> collect =
-            aquariumService.getOne(id).getFishes()
-                .stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
-        return ResponseEntity.ok(collect);
     }
 
     @DeleteMapping("/{id}")

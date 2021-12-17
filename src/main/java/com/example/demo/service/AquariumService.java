@@ -25,7 +25,7 @@ public class AquariumService {
         return aquariumRepository.save(Aquarium.builder()
             .name(aquarium.getName())
             .capacity(aquarium.getCapacity())
-            .fishes(new ArrayList<>())
+            .fish(new ArrayList<>())
             .build());
     }
 
@@ -53,18 +53,18 @@ public class AquariumService {
             return false;
         }
 
-        List<Fish> fishes = sourceAquarium.getFishes();
-        targetAquarium.addFishes(fishes);
-        sourceAquarium.getFishes().clear();
+        List<Fish> fish = sourceAquarium.getFish();
+        targetAquarium.addFish(fish);
+        sourceAquarium.getFish().clear();
 
         return true;
     }
 
     @Transactional
     public boolean remove(final Long id) {
-        List<Fish> fishes = getOne(id).getFishes();
+        List<Fish> fish = getOne(id).getFish();
 
-        if (!fishes.isEmpty()) {
+        if (!fish.isEmpty()) {
             return false;
         }
         aquariumRepository.deleteById(id);

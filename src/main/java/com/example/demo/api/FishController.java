@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.example.demo.model.Fish;
 import com.example.demo.model.command.CreateFishCommand;
 import com.example.demo.model.dto.FishDto;
+import com.example.demo.service.AquariumService;
 import com.example.demo.service.FishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 class FishController {
     private final FishService fishService;
+    private final AquariumService aquariumService;
     private final ModelMapper modelMapper;
 
     @PostMapping
@@ -33,11 +35,19 @@ class FishController {
     }
 
     @GetMapping
-    public ResponseEntity getFishes() { //dodac paginacje
+    public ResponseEntity getFish() { //dodac paginacje
         List<FishDto> collect = fishService.getAll().stream()
             .map(fish -> modelMapper.map(fish, FishDto.class))
             .collect(Collectors.toList());
 
+        return ResponseEntity.ok(collect);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity getFishFromAquarium(@RequestParam final Long id) {
+        List<FishDto> collect =
+            aquariumService.getOne(id).getFish()
+                .stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
         return ResponseEntity.ok(collect);
     }
 }

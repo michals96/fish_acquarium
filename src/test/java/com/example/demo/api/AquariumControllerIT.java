@@ -83,7 +83,7 @@ class AquariumControllerIT {
     }
 
     @Test
-    void shouldGetFishesFromAquarium() throws Exception {
+    void shouldGetFishFromAquarium() throws Exception {
         Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).build();
         when(aquariumService.getAll()).thenReturn(List.of(aquarium));
 

@@ -1,9 +1,7 @@
 package com.example.demo.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 
 import lombok.*;
@@ -22,21 +20,21 @@ public class Aquarium {
     private String name;
     private Integer capacity;
     @OneToMany(mappedBy = "aquarium", cascade = CascadeType.ALL)
-    private List<Fish> fishes = new ArrayList<>();
+    private List<Fish> fish = new ArrayList<>();
 
     public void addFish(Fish fish) {
         fish.setAquarium(this);
-        this.fishes.add(fish);
+        this.fish.add(fish);
     }
 
-    public void addFishes(List<Fish> fishes) {
-        for(Fish fish : fishes) {
+    public void addFish(List<Fish> fishList) {
+        for(Fish fish : fishList) {
             fish.setAquarium(this);
         }
-        this.fishes.addAll(fishes);
+        this.fish.addAll(fishList);
     }
 
     public boolean validateIfPossibleToAddFish() {
-        return (fishes.size() < capacity);
+        return (fish.size() < capacity);
     }
 }

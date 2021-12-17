@@ -74,13 +74,13 @@ class AquariumServiceTest {
         Fish fish = Fish.builder().name("test_fish").build();
         firstAquarium.addFish(fish);
 
-        assertThat(firstAquarium.getFishes().size()).isEqualTo(1);
-        assertThat(secondAquarium.getFishes().size()).isZero();
+        assertThat(firstAquarium.getFish().size()).isEqualTo(1);
+        assertThat(secondAquarium.getFish().size()).isZero();
 
         aquariumService.moveFish(1L, 2L);
 
-        assertThat(firstAquarium.getFishes().size()).isZero();
-        assertThat(secondAquarium.getFishes().size()).isEqualTo(1);
+        assertThat(firstAquarium.getFish().size()).isZero();
+        assertThat(secondAquarium.getFish().size()).isEqualTo(1);
 
     }
 
