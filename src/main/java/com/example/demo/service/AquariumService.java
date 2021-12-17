@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.exception.AquariumNotFoundException;
+import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
 import com.example.demo.model.command.CreateAquariumCommand;
@@ -41,7 +41,7 @@ public class AquariumService {
     public Aquarium getOne(final Long id) {
         return aquariumRepository
             .findById(id)
-            .orElseThrow(() -> new AquariumNotFoundException(id));
+            .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     @Transactional

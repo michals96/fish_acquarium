@@ -35,7 +35,7 @@ class FishController {
     }
 
     @GetMapping
-    public ResponseEntity getFish() { //dodac paginacje
+    public ResponseEntity getFish() {
         List<FishDto> collect = fishService.getAll().stream()
             .map(fish -> modelMapper.map(fish, FishDto.class))
             .collect(Collectors.toList());

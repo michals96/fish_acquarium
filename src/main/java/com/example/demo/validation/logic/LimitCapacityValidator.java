@@ -18,7 +18,6 @@ public class LimitCapacityValidator implements ConstraintValidator<LimitCapacity
     @Override
     public boolean isValid(String aquariumId, ConstraintValidatorContext context) {
         Optional<Aquarium> byId = aquariumRepository.findById(Long.valueOf(aquariumId));
-        //nie wiemy czy akarium nie istnieje czy nie ma miejsca
         return byId.map(Aquarium::validateIfPossibleToAddFish).orElse(false);
     }
 }
