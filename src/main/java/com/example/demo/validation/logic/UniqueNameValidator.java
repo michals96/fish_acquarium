@@ -21,7 +21,7 @@ public class UniqueNameValidator implements ConstraintValidator<UniqueName, Stri
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
         NameRepository nameRepository = springApplicationContext.getBean(repositoryType);
-        return nameRepository.existsByName(name);
+        return !nameRepository.existsByName(name);
     }
 
     @Override
