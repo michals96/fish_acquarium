@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .password(encoder.encode("sales"))
             .roles("SALESMAN");
     }
+    //userdetailsService i model user, role w bazie danych
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,5 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .csrf().disable()
             .httpBasic();
+        //obsluzyc brak mozliwosci wejscia na h2
     }
 }

@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = DemoApplication.class)
 @AutoConfigureMockMvc
-class FishControllerTest {
+class FishControllerIT {
     protected final ObjectMapper mapper = new ObjectMapper();
     @MockBean
     FishService fishService;

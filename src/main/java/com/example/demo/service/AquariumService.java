@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.example.demo.exception.AquariumNotFoundException;
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
-import com.example.demo.model.command.CreateaAquariumCommand;
+import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
 import com.example.demo.repository.AquariumRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class AquariumService {
     private final AquariumRepository aquariumRepository;
     private final ModelMapper modelMapper;
 
-    public Aquarium save(final CreateaAquariumCommand aquarium) {
+    public Aquarium save(final CreateAquariumCommand aquarium) {
         return aquariumRepository.save(Aquarium.builder()
             .name(aquarium.getName())
             .capacity(aquarium.getCapacity())

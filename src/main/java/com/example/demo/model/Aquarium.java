@@ -33,7 +33,6 @@ public class Aquarium {
         for(Fish fish : fishes) {
             fish.setAquarium(this);
         }
-
         this.fishes.addAll(fishes);
     }
 

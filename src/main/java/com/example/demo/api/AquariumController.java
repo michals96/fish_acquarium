@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.example.demo.model.Aquarium;
-import com.example.demo.model.command.CreateaAquariumCommand;
+import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
 import com.example.demo.model.dto.FishDto;
 import com.example.demo.service.AquariumService;
@@ -26,7 +26,7 @@ class AquariumController {
     private final ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity createAquarium(@RequestBody @Valid CreateaAquariumCommand aquarium) {
+    public ResponseEntity createAquarium(@RequestBody @Valid CreateAquariumCommand aquarium) {
         Aquarium savedAquarium = aquariumService.save(aquarium);
         return new ResponseEntity(modelMapper.map(savedAquarium, AquariumDto.class), HttpStatus.CREATED);
     }
@@ -45,6 +45,7 @@ class AquariumController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getFishesFromAquarium(@RequestParam final Long id) {
+        //za duza odpowiedzielnosc
         List<FishDto> collect =
             aquariumService.getOne(id).getFishes()
                 .stream().map(fish -> modelMapper.map(fish, FishDto.class)).collect(Collectors.toList());
@@ -61,11 +62,11 @@ class AquariumController {
     /*
      + 1. dodawac rybki i przemieszczac rybki moze tylko user z rola ROLE_FISHERMAN
      + 2. usuwac akwarium moze tylko ziomek z rola ROLE_SALESMAN
-     + 3. logika biznesowa do kontrolerow
+     + 3. logika biznesowa do serwisow
      + 4. Walidacje juz na poziomie modelu
      + 5. Testy integracyjne
      + 6. Testy jednostkowe
-     7. Zadanie z Facebooka
+     + 7. Zadanie z Facebooka
      - jacoco dodane, test coverage
      - mvn -pl <module-name> -Dit.test=TestCircle#xyz integration-test
      */

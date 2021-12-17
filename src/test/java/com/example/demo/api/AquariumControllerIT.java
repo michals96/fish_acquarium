@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.model.Aquarium;
-import com.example.demo.model.command.CreateaAquariumCommand;
+import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.service.AquariumService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = DemoApplication.class)
 @AutoConfigureMockMvc
-class AquariumControllerTest {
+class AquariumControllerIT {
     protected final ObjectMapper mapper = new ObjectMapper();
 
     @MockBean
@@ -125,8 +125,8 @@ class AquariumControllerTest {
             .andExpect(status().isBadRequest());
     }
 
-    private CreateaAquariumCommand dummyRequest() {
-        return new CreateaAquariumCommand("OK", 2);
+    private CreateAquariumCommand dummyRequest() {
+        return new CreateAquariumCommand("OK", 2);
     }
 
     protected String toJson(final Object anObject) {
