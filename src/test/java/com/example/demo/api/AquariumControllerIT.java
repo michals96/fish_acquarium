@@ -32,8 +32,6 @@ class AquariumControllerIT {
     protected final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    ObjectMapper objectMapper;
-    @Autowired
     ModelMapper modelMapper;
     @Autowired
     private MockMvc postman;

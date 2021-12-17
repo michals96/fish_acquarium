@@ -1,32 +1,24 @@
 package com.example.demo.api;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.model.Aquarium;
-import com.example.demo.model.Fish;
+import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.model.command.CreateFishCommand;
-import com.example.demo.repository.AquariumRepository;
-import com.example.demo.service.FishService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,38 +29,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class FishControllerIT {
     protected final ObjectMapper mapper = new ObjectMapper();
-    @MockBean
-    FishService fishService;
-    @MockBean
-    AquariumRepository aquariumRepository;
+
     @Autowired
-    ObjectMapper objectMapper;
+    ModelMapper modelMapper;
     @Autowired
     private MockMvc postman;
 
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "FISHERMAN")
     void shouldAddSingleFish() throws Exception {
-        Fish fish = Fish.builder().name("Fish").build();
-        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fish(new ArrayList<>()).build();
-        aquarium.getFish().add(fish);
-        when(fishService.save(any())).thenReturn(fish);
-        when(aquariumRepository.findById(any())).thenReturn(Optional.of(aquarium));
+        postman.perform(post("/aquarium")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(new CreateAquariumCommand("OK", 2))))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.name", is(equalTo("OK"))));
 
         postman.perform(post("/fish")
             .contentType(APPLICATION_JSON)
             .content(toJson(dummyRequest())))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.name", is(equalTo("Fish"))));
+            .andExpect(jsonPath("$.name", is(equalTo("OK"))));
     }
 
     @Test
     void shouldNotAddSingleFishOnMissingAuthorization() throws Exception {
-        Fish fish = Fish.builder().name("Fish").build();
-        Aquarium aquarium = Aquarium.builder().name("Aq1").capacity(3).fish(new ArrayList<>()).build();
-        aquarium.getFish().add(fish);
-        when(fishService.save(any())).thenReturn(fish);
-        when(aquariumRepository.findById(any())).thenReturn(Optional.of(aquarium));
+        postman.perform(post("/aquarium")
+            .contentType(APPLICATION_JSON)
+            .content(toJson(new CreateAquariumCommand("OK", 2))))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.name", is(equalTo("OK"))));
 
         postman.perform(post("/fish")
             .contentType(APPLICATION_JSON)
@@ -78,9 +67,6 @@ class FishControllerIT {
 
     @Test
     void shouldGetFishList() throws Exception {
-        Fish fish = Fish.builder().name("Fish").build();
-        when(fishService.getAll()).thenReturn(List.of(fish));
-
         postman.perform(get("/fish")
             .contentType(APPLICATION_JSON)
             .content(toJson(dummyRequest())))
