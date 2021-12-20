@@ -52,7 +52,7 @@ class FishServiceTest {
 
     @Test
     @Disabled
-    void shouldSaveFish() throws Exception {
+    void shouldSaveFish() {
         when(aquariumService.getOne(any())).thenReturn(new Aquarium(1L, "test_aq", 10, new ArrayList<>()));
         Fish fish = fishService.save(new CreateFishCommand("test_fish", "test_type", BigDecimal.ONE, "1"));
         assertThat(fish).isNotNull();
@@ -60,7 +60,7 @@ class FishServiceTest {
 
     @Test
     @Disabled
-    void shouldGetAllFishes() throws Exception {
+    void shouldGetAllFish() {
         when(aquariumService.getOne(any())).thenReturn(new Aquarium(1L, "test_aq", 10, new ArrayList<>()));
 
         fishService.save(new CreateFishCommand("test_fish", "test_type", BigDecimal.ONE, "1"));

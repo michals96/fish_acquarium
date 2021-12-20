@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.exception.AquariumNotFoundException;
+import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
-import com.example.demo.model.command.CreateaAquariumCommand;
+import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.model.dto.AquariumDto;
 import com.example.demo.repository.AquariumRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,11 @@ public class AquariumService {
     private final AquariumRepository aquariumRepository;
     private final ModelMapper modelMapper;
 
-    public Aquarium save(final CreateaAquariumCommand aquarium) {
+    public Aquarium save(final CreateAquariumCommand aquarium) {
         return aquariumRepository.save(Aquarium.builder()
             .name(aquarium.getName())
             .capacity(aquarium.getCapacity())
-            .fishes(new ArrayList<>())
+            .fish(new ArrayList<>())
             .build());
     }
 
@@ -41,7 +41,7 @@ public class AquariumService {
     public Aquarium getOne(final Long id) {
         return aquariumRepository
             .findById(id)
-            .orElseThrow(() -> new AquariumNotFoundException(id));
+            .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     @Transactional
@@ -53,18 +53,18 @@ public class AquariumService {
             return false;
         }
 
-        List<Fish> fishes = sourceAquarium.getFishes();
-        targetAquarium.addFishes(fishes);
-        sourceAquarium.getFishes().clear();
+        List<Fish> fish = sourceAquarium.getFish();
+        targetAquarium.addFish(fish);
+        sourceAquarium.getFish().clear();
 
         return true;
     }
 
     @Transactional
     public boolean remove(final Long id) {
-        List<Fish> fishes = getOne(id).getFishes();
+        List<Fish> fish = getOne(id).getFish();
 
-        if (!fishes.isEmpty()) {
+        if (!fish.isEmpty()) {
             return false;
         }
         aquariumRepository.deleteById(id);

@@ -4,6 +4,7 @@ import java.lang.annotation.*;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import com.example.demo.repository.NameRepository;
 import com.example.demo.validation.logic.UniqueNameValidator;
 
 @Constraint(validatedBy = UniqueNameValidator.class)
@@ -14,5 +15,5 @@ public @interface UniqueName {
     String message() default "Invalid name, object already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    Class<?> type() default Object.class;
+    Class<? extends NameRepository> type();
 }

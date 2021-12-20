@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.demo.model.Aquarium;
 import com.example.demo.model.Fish;
-import com.example.demo.model.command.CreateaAquariumCommand;
+import com.example.demo.model.command.CreateAquariumCommand;
 import com.example.demo.repository.AquariumRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,14 +40,14 @@ class AquariumServiceTest {
 
     @Test
     void shouldSaveAquarium() {
-        Aquarium aquarium = aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        Aquarium aquarium = aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
         assertThat(aquarium).isNotNull();
     }
 
     @Test
     void shouldGetAllAquariums() {
-        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
-        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
 
         List<Aquarium> all = aquariumService.getAll();
 
@@ -58,8 +58,8 @@ class AquariumServiceTest {
 
     @Test
     void shouldGetOneAquarium() {
-        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
-        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
 
         Aquarium aquarium = aquariumService.getOne(1L);
 
@@ -68,26 +68,26 @@ class AquariumServiceTest {
 
     @Test
     void shouldMoveFishToDifferentAquarium() {
-        Aquarium firstAquarium = aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
-        Aquarium secondAquarium = aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        Aquarium firstAquarium = aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
+        Aquarium secondAquarium = aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
 
         Fish fish = Fish.builder().name("test_fish").build();
         firstAquarium.addFish(fish);
 
-        assertThat(firstAquarium.getFishes().size()).isEqualTo(1);
-        assertThat(secondAquarium.getFishes().size()).isZero();
+        assertThat(firstAquarium.getFish().size()).isEqualTo(1);
+        assertThat(secondAquarium.getFish().size()).isZero();
 
         aquariumService.moveFish(1L, 2L);
 
-        assertThat(firstAquarium.getFishes().size()).isZero();
-        assertThat(secondAquarium.getFishes().size()).isEqualTo(1);
+        assertThat(firstAquarium.getFish().size()).isZero();
+        assertThat(secondAquarium.getFish().size()).isEqualTo(1);
 
     }
 
     @Test
     void shouldRemoveAquarium() {
-        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
-        aquariumService.save(new CreateaAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
+        aquariumService.save(new CreateAquariumCommand("Aquarium", 10));
 
         aquariumService.remove(1L);
         List<Aquarium> aquariums = aquariumService.getAll();

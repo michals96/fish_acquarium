@@ -3,7 +3,7 @@ package com.example.demo.model.command;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 
-import com.example.demo.model.Fish;
+import com.example.demo.repository.FishRepository;
 import com.example.demo.validation.annotation.LimitCapacity;
 import com.example.demo.validation.annotation.UniqueName;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateFishCommand {
     @NotNull
-    @UniqueName(message="FISH_ALREADY_EXISTS", type = Fish.class)
+    @UniqueName(message="FISH_ALREADY_EXISTS", type = FishRepository.class)
     private String name;
     @NotNull
     private String type;

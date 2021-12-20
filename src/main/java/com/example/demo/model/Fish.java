@@ -21,5 +21,6 @@ public class Fish {
     private String type;
     private BigDecimal price;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="aquarium_id")
     private Aquarium aquarium;
 }

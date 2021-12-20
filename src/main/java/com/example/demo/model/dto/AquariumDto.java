@@ -15,5 +15,4 @@ public class AquariumDto {
     private long id;
     private String name;
     private Integer capacity;
-    //private Set<FishDto> fishes;
 }
